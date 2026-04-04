@@ -8,8 +8,8 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/derrickyoo/femProject/internal/api"
-	"github.com/derrickyoo/femProject/internal/store"
+	"github.com/derrickyoo/go-workouts/internal/api"
+	"github.com/derrickyoo/go-workouts/internal/store"
 )
 
 type Application struct {

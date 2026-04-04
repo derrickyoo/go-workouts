@@ -2,7 +2,7 @@
 package routes
 
 import (
-	"github.com/derrickyoo/femProject/internal/app"
+	"github.com/derrickyoo/go-workouts/internal/app"
 	"github.com/go-chi/chi/v5"
 )
 

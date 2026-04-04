@@ -1,4 +1,4 @@
-module github.com/derrickyoo/femProject
+module github.com/derrickyoo/go-workouts
 
 go 1.25.0
 
