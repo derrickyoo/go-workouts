@@ -19,6 +19,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	defer app.DB.Close()
 
 	chiMux := routes.SetupRoutes(app)
 	server := &http.Server{
