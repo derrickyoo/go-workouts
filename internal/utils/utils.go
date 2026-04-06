@@ -1,3 +1,4 @@
+// Package utils provides shared HTTP response and request helpers.
 package utils
 
 import (

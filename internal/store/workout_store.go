@@ -1,4 +1,4 @@
-// Package store
+// Package store provides data access and persistence for workouts.
 package store
 
 import (

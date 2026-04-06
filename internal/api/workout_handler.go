@@ -1,4 +1,4 @@
-// Package api
+// Package api provides HTTP handlers for the workout service.
 package api
 
 import (
