@@ -28,7 +28,9 @@ type PostgresUserStore struct {
 }
 
 func NewPostgresUserStore(db *sql.DB) *PostgresUserStore {
-	return &PostgresUserStore{}
+	return &PostgresUserStore{
+		db: db,
+	}
 }
 
 type UserStore interface {
@@ -43,7 +45,8 @@ func (s *PostgresUserStore) CreateUser(user *User) error {
     VALUES ($1, $2, $3, $4)
     RETURNING id, created_at, updatedAt
   `
-	err := s.db.QueryRow(query, user.Username, user.Email, user, user.PasswordHash.hash, user.Bio).Scan(&user.ID, &user.CreatedAt, &user.UpdatedAt)
+	err := s.db.QueryRow(query, user.Username, user.Email, user, user.PasswordHash.hash, user.Bio).
+		Scan(&user.ID, &user.CreatedAt, &user.UpdatedAt)
 	if err != nil {
 		return err
 	}
@@ -80,4 +83,35 @@ func (s *PostgresUserStore) GetUserByUsername(username string) (*User, error) {
 	}
 
 	return user, nil
+}
+
+func (s *PostgresUserStore) UpdateUser(user *User) error {
+	query := `
+    UPDATE users
+    SET (username = $1, email = $2, bio = $3, updated_at = CURRENT_TIMESTAMP)
+    WHERE id = $4
+    RETURNING updated_at
+  `
+
+	result, err := s.db.Exec(
+		query,
+		user.Username,
+		user.Email,
+		user.Bio,
+		user.ID,
+	)
+	if err != nil {
+		return err
+	}
+
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		return err
+	}
+
+	if rowsAffected == 0 {
+		return sql.ErrNoRows
+	}
+
+	return nil
 }
